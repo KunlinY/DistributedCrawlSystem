@@ -10,14 +10,14 @@ public class CrawlDB {
     // Redis DB 连接设置
     private static final String host = "123.206.72.211";
     private static final int port = 6379;
+    private static Jedis jedis;
+
     // Redis 相关常量设置
     private static final String waitingList = "waitingList";
     private static final String finishHash = "finishHash";
     private static final int crawlSec = 30;     // 单个页面爬取等待时间30s
     private static int recrawlSec = 3600 * 24;  // 热页重复爬取时间为一天
     private static long maxSec = getTime();     // 时间正无穷
-
-    private static Jedis jedis;
 
     public CrawlDB() {
         if (jedis == null) {
@@ -71,5 +71,12 @@ public class CrawlDB {
             return false;
         }
         return true;
+    }
+
+    // 从waitList待爬取队列中返回URL
+    // 无URL则返回空字符串
+    public String getURL() {
+        String url = jedis.lpop(waitingList);
+        return url.equals("nil") ? "" : url;
     }
 }

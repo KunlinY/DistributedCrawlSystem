@@ -2,7 +2,6 @@ package badcode;
 
 
 import redis.clients.jedis.Jedis;
-
 import java.util.Date;
 
 public class Main {
