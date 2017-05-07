@@ -1,8 +1,5 @@
 package badcode;
 
-/**
- * Created by 97520 on 05/06/2017.
- */
 public class Crawler {
     private static CrawlDB crawlDB = new CrawlDB();
     private static String rootURL;
