@@ -45,4 +45,7 @@ public class Crawler {
         return false;
     }
 
+    private void multiThread() {
+
+    }
 }
