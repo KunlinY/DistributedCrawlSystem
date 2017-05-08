@@ -45,7 +45,7 @@ public class CrawlDB {
     }
 
     // 将解析出的URL加入waitingList待爬取队列
-    public long addDirtyURL(String url) {
+    public static long addDirtyURL(String url) {
         try {
             if (jedis.hexists(finishHash, url)) {
                 long time = Integer.parseInt(jedis.hget(finishHash, url));
@@ -68,7 +68,7 @@ public class CrawlDB {
     // 对于已爬完的URL，先加入结束队列
     // 根据其是否含有正文如果有正文则设置更新时间为一天，一天之后再次访问将重新爬取
     // 如果没有正文 则设置更新时间为maxSec，将不会再爬取或者一定时间后再爬
-    public long addCleanURL(String url) {
+    public static long addCleanURL(String url) {
         try {
             return jedis.hset(finishHash, url, String.valueOf(getTime() + crawlSec));
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class CrawlDB {
         }
     }
 
-    public boolean addCleanURL(String url, boolean hasContent) {
+    public static boolean addCleanURL(String url, boolean hasContent) {
         try {
             if (hasContent)
                 jedis.hset(finishHash, url, String.valueOf(getTime() + maxSec));
@@ -92,7 +92,7 @@ public class CrawlDB {
 
     // 从waitList待爬取队列中返回URL
     // 无URL则返回空字符串
-    public String getURL() {
+    public static String getURL() {
         String url = jedis.spop(waitingSet);
         if (url == null)
             return "";
@@ -100,7 +100,7 @@ public class CrawlDB {
     }
 
     // 返回URL的剩余时间
-    public long getTTL(String url) {
+    public static long getTTL(String url) {
         String time = jedis.hget(finishHash, url);
         if (time == null)
             return 0;
