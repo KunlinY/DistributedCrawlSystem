@@ -63,6 +63,7 @@ public class Fetcher extends Thread {
 
                 // TODO 获取HTML
                 // 函数入口
+
                 // 返回的HTML String
                 // 调用
                 // crawler.inject(parser.filterURL(HTMLString));
