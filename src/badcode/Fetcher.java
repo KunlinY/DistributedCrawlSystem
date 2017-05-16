@@ -142,6 +142,7 @@ public class Fetcher extends Thread {
 
         cookies.addAll(webClient.getCookies(url));
 
+
         System.out.println(re);
 
     }
