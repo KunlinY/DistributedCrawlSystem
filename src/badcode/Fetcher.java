@@ -91,7 +91,7 @@ public class Fetcher extends Thread {
 
         try{
             URL url = new URL(head);
-            mainContent = getURLSource(url);
+            mainContent = getXmlResponse(url);
             System.out.println(mainContent);
         }
         catch(Exception ee){
@@ -100,26 +100,6 @@ public class Fetcher extends Thread {
         }
 
         return mainContent;
-    }
-
-    public static String getURLSource(URL url) throws Exception    {
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(5 * 1000);
-
-        return new String(readInputStream(conn.getInputStream()));
-    }
-
-    public static byte[] readInputStream(InputStream inputStream) throws Exception {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        byte[]  buffer = new byte[1204];
-        int len;
-        while ((len = inputStream.read(buffer)) != -1){
-            outStream.write(buffer,0,len);
-        }
-        inputStream.close();
-        return outStream.toByteArray();
     }
 
     public String getPdoc(String temp) throws Exception {
@@ -137,32 +117,33 @@ public class Fetcher extends Thread {
         return ((HtmlPage)webClient.getPage(webrequest)).asXml();
     }
 
-    public String getXmlResponse(URL url, WebClient client)throws IOException {
-        StringBuffer temp = new StringBuffer();
-        URLConnection uc = url.openConnection();
-        uc.setConnectTimeout(10000);
-        uc.setDoOutput(true);
-        InputStream in = new BufferedInputStream(uc.getInputStream());
-        Reader rd = new InputStreamReader(in,"UTF-8");
+    public String getXmlResponse(URL url)throws IOException {
+        HtmlPage page = webClient.getPage(url);
+        String re = page.asText();
 
-        int c = 0;
-        while ((c = rd.read()) != -1) {
-            temp.append((char) c);
-        }
+        cookies.addAll(webClient.getCookies(url));
 
-        in.close();
-
-        cookies.addAll(client.getCookies(url));
-
-        return temp.toString();
+        return re;
     }
 
-    void writeFile(String string) throws IOException {
+    public void writeFile(String string) throws IOException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String txtname = txtnum++ +".txt";
         PrintWriter out = new PrintWriter(new FileWriter(txtname));
         out.println(df.format(new Date())+'\n'+string);
         out.close();
+    }
+
+    public static void main(String argv[]) throws Exception {
+        WebClient webClient = new WebClient();
+        URL url = new URL("https://www.baidu.com/");
+        HtmlPage page = webClient.getPage(url);
+        String re = page.asText();
+
+        cookies.addAll(webClient.getCookies(url));
+
+        System.out.println(re);
+
     }
 
 }
