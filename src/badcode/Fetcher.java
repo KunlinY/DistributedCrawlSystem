@@ -75,7 +75,6 @@ public class Fetcher extends Thread {
 
     public void kill() {
         alive = false;
-        interrupt();
     }
 
     public String getMainContent(String temp){
