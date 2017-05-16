@@ -112,11 +112,13 @@ public class Fetcher extends Thread {
     public static byte[] readInputStream(InputStream inputStream) throws Exception {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[]  buffer = new byte[1204];
+
         int len;
         while ((len = inputStream.read(buffer)) != -1){
             outStream.write(buffer,0,len);
         }
         inputStream.close();
+
         return outStream.toByteArray();
     }
 
