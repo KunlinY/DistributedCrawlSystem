@@ -45,6 +45,7 @@ public class Fetcher extends Thread {
     @Override
     public void run(){
         super.run();
+
         threadID = startThread.incrementAndGet();
         String url;
 
