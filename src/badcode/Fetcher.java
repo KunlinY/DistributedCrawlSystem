@@ -23,12 +23,13 @@ public class Fetcher extends Thread {
     private int threadID;
 
     private WebClient webClient=new WebClient();
-    private static Set<Cookie> setc = new HashSet<Cookie>();
+    private static Set<Cookie> cookies = new HashSet<Cookie>();
     private static int txtnum = 1;
 
     private Parser parser = new Parser();
     private Generator generator;
     private Crawler crawler;
+    private boolean alive = true;
 
     Fetcher(Crawler crawler, Generator generator){
         webClient.getOptions().setJavaScriptEnabled(false);
@@ -47,7 +48,7 @@ public class Fetcher extends Thread {
         threadID = startThread.incrementAndGet();
         String url;
 
-        while (true) {
+        while (alive) {
             try {
                 url = generator.generate();
 
@@ -72,49 +73,55 @@ public class Fetcher extends Thread {
         }
     }
 
+    public void kill() {
+        alive = false;
+        interrupt();
+    }
+
     public String getMainContent(String temp){
-        if (!temp.toLowerCase().startsWith("http://")) {
-            temp = "http://" + temp;
+        if (!(temp.toLowerCase().startsWith("http://")
+                || temp.toLowerCase().startsWith("https://"))) {
+            temp += "http://";
         }
+
         String head = "http://183.174.228.9:8282/du/jsonp/ExtractMainContent?";
-        head.concat(temp);
-        String urlsource="";
+        head += temp;
+        String mainContent="";
 
         try{
             URL url = new URL(head);
-            urlsource = getURLSource(url);
-            System.out.println(urlsource);
+            mainContent = getURLSource(url);
+            System.out.println(mainContent);
         }
         catch(Exception ee){
-            System.out.println("get ExtractMainContent Error!");
+            System.out.println("Get ExtractMainContent @" + temp + " Error!");
+            ee.printStackTrace();
         }
 
-        return urlsource;
+        return mainContent;
     }
 
     public static String getURLSource(URL url) throws Exception    {
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
         conn.setRequestMethod("GET");
         conn.setConnectTimeout(5 * 1000);
-        InputStream inStream =  conn.getInputStream();  //通过输入流获取html二进制数据
-        byte[] data = readInputStream(inStream);        //把二进制数据转化为byte字节数据
-        String htmlSource = new String(data);
-        return htmlSource;
+
+        return new String(readInputStream(conn.getInputStream()));
     }
 
-    public static byte[] readInputStream(InputStream instream) throws Exception {
+    public static byte[] readInputStream(InputStream inputStream) throws Exception {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[]  buffer = new byte[1204];
-        int len = 0;
-        while ((len = instream.read(buffer)) != -1){
+        int len;
+        while ((len = inputStream.read(buffer)) != -1){
             outStream.write(buffer,0,len);
         }
-        instream.close();
+        inputStream.close();
         return outStream.toByteArray();
     }
 
-
-    public String getpdoc(String temp) throws Exception {
+    public String getPdoc(String temp) throws Exception {
         URL u = new URL("http://websensor.playbigdata.com/du/Service.svc/pdoc");
         WebRequest webrequest = new WebRequest(u,"POST");
         webrequest.setRequestBody(temp);
@@ -122,55 +129,36 @@ public class Fetcher extends Thread {
         webClient.addRequestHeader("Host","http://websensor.playbigdata.com");
         webClient.addRequestHeader("Connection","keep-alive");
         webClient.addRequestHeader("Content-Length","32673");
-        for(Cookie c:setc){
+        for(Cookie c: cookies){
             webClient.addRequestHeader("Cookies",c.toString());
         }
 
-        HtmlPage htmlPage = webClient.getPage(webrequest);
-        HtmlForm form = htmlPage.getFormByName("f");
-        HtmlTextInput text = form.getInputByName("inputText");
-        text.setText(temp);
-        HtmlSubmitInput button = form.getInputByName("btnG");
-        HtmlPage listPage = button.click();
-
-        System.out.println(listPage.asXml());
-        //webClient.closeAllWindows();
-        return listPage.asXml();
+        return ((HtmlPage)webClient.getPage(webrequest)).asXml();
     }
 
     public String getXmlResponse(URL url, WebClient client)throws IOException {
-        String str=null;      //��ȡxml
         StringBuffer temp = new StringBuffer();
         URLConnection uc = url.openConnection();
         uc.setConnectTimeout(10000);
         uc.setDoOutput(true);
         InputStream in = new BufferedInputStream(uc.getInputStream());
         Reader rd = new InputStreamReader(in,"UTF-8");
-        int c = 0;
 
+        int c = 0;
         while ((c = rd.read()) != -1) {
             temp.append((char) c);
         }
 
         in.close();
-        str = temp.toString();
 
-        setc.addAll(client.getCookies(url));//����cookie
+        cookies.addAll(client.getCookies(url));
 
-//        Iterator<Cookie> i = setc.iterator();
-//        while (i.hasNext())
-//        {
-//            client.getCookieManager().addCookie(i.next());
-//        }
-//        CookieManager CM = client.getCookieManager();
-//        setc = CM.getCookies();
-        return str;
+        return temp.toString();
     }
 
     void writeFile(String string) throws IOException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String txtname = txtnum+".txt";
-        txtnum++;
+        String txtname = txtnum++ +".txt";
         PrintWriter out = new PrintWriter(new FileWriter(txtname));
         out.println(df.format(new Date())+'\n'+string);
         out.close();
