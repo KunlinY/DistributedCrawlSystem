@@ -10,12 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Parser {
+
     private Set<String> filterURL(String url){
         Set<String> links= new HashSet<>();
 
         try {
             NodeFilter filter = new NodeClassFilter(LinkTag.class);
             org.htmlparser.Parser parser = new org.htmlparser.Parser();
+
             parser.setURL(url);
             parser.setEncoding(parser.getEncoding());
             NodeList list = parser.extractAllNodesThatMatch(filter);
@@ -42,6 +44,7 @@ public class Parser {
         }
         return links;
     }
+
     public void main(String[] args) {
         filterURL("https://www.taobao.com/");
     }
