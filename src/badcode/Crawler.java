@@ -1,7 +1,8 @@
 package badcode;
 
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashSet;
 
 public class Crawler {
     private Generator generator = () -> CrawlDB.getURL();
@@ -9,8 +10,10 @@ public class Crawler {
     private ArrayList<String> patterns = new ArrayList<>();
     private int threadsNum = 10;
     private ArrayList<Fetcher> fetchers = new ArrayList<>();
+    private boolean doNLP = false;
 
-    public Crawler(boolean isMaster) {
+    public Crawler(boolean isMaster, boolean NLP) {
+        doNLP = NLP;
         if (!isMaster) {
             // TODO master & slave
         }
@@ -52,16 +55,17 @@ public class Crawler {
         multiThread();
     }
 
-    public void inject(Set<String> links) {
-        for (String link : links) {
-            if (filter(link))
-                CrawlDB.addDirtyURL(link);
+    public void inject(HashSet<URL> links) {
+        for (URL link : links) {
+            String url = link.toString();
+            if (filter(url))
+                CrawlDB.addDirtyURL(url);
         }
     }
 
     private void multiThread() {
         for (int i = 0; i < threadsNum; i++) {
-            Fetcher fetcher = new Fetcher(this, generator);
+            Fetcher fetcher = new Fetcher(this, generator, doNLP);
             fetchers.add(fetcher);
             fetcher.start();
         }

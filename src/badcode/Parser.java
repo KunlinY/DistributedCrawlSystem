@@ -1,17 +1,34 @@
 package badcode;
 
-
 import org.htmlparser.NodeFilter;
 import org.htmlparser.filters.NodeClassFilter;
 import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeList;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Parser {
 
-    private Set<String> filterURL(String url){
+    public static HashSet<URL> extractLink(String html, URL url) {
+        HashSet<URL> links = new HashSet<>();
+
+
+        // link 为用正则表达式提取出来的URL，提取所有<a href="里面的URL
+        // 引号可以是"也可以是'
+        /*
+        try {
+            links.add(new URL(url, link));
+        } catch (Exception e) {
+            System.out.println("Error parsing url: " + link + " in " + url);
+        }
+        */
+
+        return links;
+    }
+
+    public static Set<String> filterURL(String url){
         Set<String> links= new HashSet<>();
 
         try {
@@ -45,7 +62,7 @@ public class Parser {
         return links;
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         filterURL("https://www.taobao.com/");
     }
 }

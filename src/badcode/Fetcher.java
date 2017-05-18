@@ -20,6 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Fetcher extends Thread {
     private static AtomicInteger startThread = new AtomicInteger(0);
+    private static String pagePath = "\\pages\\";
+    private static String infoPath = "\\info\\";
     private int threadID;
 
     private WebClient webClient=new WebClient();
@@ -30,13 +32,15 @@ public class Fetcher extends Thread {
     private Generator generator;
     private Crawler crawler;
     private boolean alive = true;
+    private boolean doNLP = false;
 
-    Fetcher(Crawler crawler, Generator generator){
+    Fetcher(Crawler crawler, Generator generator, boolean NLP){
         webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getCookieManager().setCookiesEnabled(true);
 
+        this.doNLP = NLP;
         this.generator = generator;
         this.crawler = crawler;
     }
@@ -61,12 +65,11 @@ public class Fetcher extends Thread {
                 if (CrawlDB.addDirtyURL(url) <= 0)
                     continue;
 
-                // TODO 获取HTML
-                // 函数入口
+                String html = getXmlResponse(url);
 
-                // 返回的HTML String
-                // 调用
-                // crawler.inject(parser.filterURL(HTMLString));
+                writeFile(html, url, pagePath);
+                crawler.inject((new Parser()).extractLink(html, new URL(url)));
+                NLP(html);
             }
             catch (Exception e) {
                 System.out.println("Error fetching url!");
@@ -80,7 +83,7 @@ public class Fetcher extends Thread {
         interrupt();
     }
 
-    public String getMainContent(String temp){
+    private String getMainContent(String temp){
         if (!(temp.toLowerCase().startsWith("http://")
                 || temp.toLowerCase().startsWith("https://"))) {
             temp += "http://";
@@ -91,8 +94,7 @@ public class Fetcher extends Thread {
         String mainContent="";
 
         try{
-            URL url = new URL(head);
-            mainContent = getXmlResponse(url);
+            mainContent = getXmlResponse(head);
             System.out.println(mainContent);
         }
         catch(Exception ee){
@@ -103,7 +105,7 @@ public class Fetcher extends Thread {
         return mainContent;
     }
 
-    public String getPdoc(String temp) throws Exception {
+    private String getPdoc(String temp) throws Exception {
         URL u = new URL("http://websensor.playbigdata.com/du/Service.svc/pdoc");
         WebRequest webrequest = new WebRequest(u,"POST");
         webrequest.setRequestBody(temp);
@@ -118,7 +120,8 @@ public class Fetcher extends Thread {
         return ((HtmlPage)webClient.getPage(webrequest)).asXml();
     }
 
-    public String getXmlResponse(URL url)throws IOException {
+    private String getXmlResponse(String str)throws Exception {
+        URL url = new URL(str);
         HtmlPage page = webClient.getPage(url);
         String re = page.asText();
 
@@ -127,12 +130,25 @@ public class Fetcher extends Thread {
         return re;
     }
 
-    public void writeFile(String string) throws IOException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String txtname = txtnum++ +".txt";
-        PrintWriter out = new PrintWriter(new FileWriter(txtname));
-        out.println(df.format(new Date())+'\n'+string);
-        out.close();
+    private void writeFile(String html, String name, String path) throws IOException {
+        File file = new File(path + name + ".html");
+        if (!file.exists())
+            file.createNewFile();
+        (new BufferedWriter(new FileWriter(file))).write(html);
+    }
+
+    private void NLP(String html) throws Exception{
+        JParser jParser = new JParser();
+        String item = getMainContent(html);
+        NLP.News content = jParser.getContent(item);
+
+        if (content != null) {
+            writeFile(content.content, content.title, infoPath);
+            if (doNLP) {
+                NLP.Words words = jParser.getWords(item);
+                words.dump();
+            }
+        }
     }
 
     public static void main(String argv[]) throws Exception {
@@ -142,10 +158,7 @@ public class Fetcher extends Thread {
         String re = page.asText();
 
         cookies.addAll(webClient.getCookies(url));
-
-
         System.out.println(re);
-
     }
 
 }

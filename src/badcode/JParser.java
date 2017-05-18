@@ -20,6 +20,10 @@ public class JParser {
     private Map<String, HashMap<String, Integer>> oword = new HashMap<String,HashMap<String,Integer>>();
     private ArrayList<String> nugget = new ArrayList<String>();
 
+    public JParser() {
+
+    }
+
     public JParser(String JsonContext){
         JSONObject objs = JSONObject.fromObject(JsonContext);//将json对象的字符串转成对象
         JSONArray Entity = JSONArray.fromObject(objs.getString("Entity"));
@@ -69,6 +73,14 @@ public class JParser {
         }
     }
 
+    public NLP.News getContent(String json) {
+        return null;
+    }
+
+    public NLP.Words getWords(String json) {
+        return null;
+    }
+
     //以下函数为测试时使用
     public static String ReadFile(String Path){
         BufferedReader reader = null;
@@ -96,6 +108,7 @@ public class JParser {
         }
         return laststr;
     }
+
     public static void main(String[] args) throws UnsupportedEncodingException{
         String JSONContext = ReadFile("F:\\本科\\大二\\JAVA\\大作业\\response-export.json");//test
         new JParser(JSONContext);
