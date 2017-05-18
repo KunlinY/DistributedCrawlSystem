@@ -1,5 +1,6 @@
 package badcode;
 
+import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -26,7 +27,6 @@ public class Fetcher extends Thread {
 
     private WebClient webClient=new WebClient();
     private static Set<Cookie> cookies = new HashSet<Cookie>();
-    private static int txtnum = 1;
 
     private Parser parser = new Parser();
     private Generator generator;
@@ -68,8 +68,8 @@ public class Fetcher extends Thread {
                 String html = getXmlResponse(url);
 
                 writeFile(html, url, pagePath);
-                crawler.inject((new Parser()).extractLink(html, new URL(url)));
-                NLP(html);
+                crawler.inject(parser.extractLink(html, new URL(url)));
+                NLP(url);
             }
             catch (Exception e) {
                 System.out.println("Error fetching url!");
@@ -89,12 +89,12 @@ public class Fetcher extends Thread {
             temp += "http://";
         }
 
-        String head = "http://183.174.228.9:8282/du/jsonp/ExtractMainContent?";
+        String head = "http://183.174.228.9:8282/du/jsonp/ExtractMainContent?url=";
         head += temp;
-        String mainContent="";
+        String mainContent = null;
 
         try{
-            mainContent = getXmlResponse(head);
+            mainContent = getRawResponse(head);
             System.out.println(mainContent);
         }
         catch(Exception ee){
@@ -120,14 +120,33 @@ public class Fetcher extends Thread {
         return ((HtmlPage)webClient.getPage(webrequest)).asXml();
     }
 
-    private String getXmlResponse(String str)throws Exception {
+    private String getXmlResponse(String str) throws Exception {
         URL url = new URL(str);
-        HtmlPage page = webClient.getPage(url);
-        String re = page.asText();
+
+        Page page = webClient.getPage(url);
+        String re = page.getWebResponse().getContentAsString();
 
         cookies.addAll(webClient.getCookies(url));
 
         return re;
+    }
+
+    private String getRawResponse(String url) throws Exception {
+        URL u = new URL(url);
+        InputStream in =u.openStream();
+        InputStreamReader isr = new InputStreamReader(in);
+        BufferedReader bufferedReader = new BufferedReader(isr);
+
+        String str = "", temp;
+        while ((temp = bufferedReader.readLine()) != null) {
+            str += temp;
+        }
+
+        bufferedReader.close();
+        isr.close();
+        in.close();
+
+        return str;
     }
 
     private void writeFile(String html, String name, String path) throws IOException {
@@ -137,28 +156,17 @@ public class Fetcher extends Thread {
         (new BufferedWriter(new FileWriter(file))).write(html);
     }
 
-    private void NLP(String html) throws Exception{
+    private void NLP(String url) throws Exception{
         JParser jParser = new JParser();
-        String item = getMainContent(html);
+        String item = getMainContent(url);
         NLP.News content = jParser.getContent(item);
 
         if (content != null) {
             writeFile(content.content, content.title, infoPath);
             if (doNLP) {
-                NLP.Words words = jParser.getWords(item);
+                NLP.Words words = jParser.getWords(getPdoc(item));
                 words.dump();
             }
         }
     }
-
-    public static void main(String argv[]) throws Exception {
-        WebClient webClient = new WebClient();
-        URL url = new URL("https://www.baidu.com/");
-        HtmlPage page = webClient.getPage(url);
-        String re = page.asText();
-
-        cookies.addAll(webClient.getCookies(url));
-        System.out.println(re);
-    }
-
 }
