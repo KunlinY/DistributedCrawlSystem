@@ -170,7 +170,7 @@ public class Fetcher extends Thread {
         File file = new File(path + htmlCount + ".html");
         if (!file.exists())
             file.createNewFile();
-        (new BufferedWriter(new FileWriter(file))).write(url + "\n" + html);
+        (new FileOutputStream(file)).write((url + "\n" + html).getBytes());
 
         if (htmlCount.get() > 1000)
             kill();

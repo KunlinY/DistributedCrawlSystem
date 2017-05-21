@@ -8,7 +8,7 @@ public class Crawler {
     private static Generator generator = () -> CrawlDB.getURL();
     private static String rootURL;
     private ArrayList<String> patterns = new ArrayList<>();
-    private int threadsNum = 100;
+    private int threadsNum = 20;
     private ArrayList<Fetcher> fetchers = new ArrayList<>();
     private boolean doNLP = false;
 

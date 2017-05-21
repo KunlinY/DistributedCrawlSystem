@@ -11,8 +11,7 @@ public class CrawlDB {
     private static Jedis jedis;
 
     // Redis 相关常量设置
-    private static final String waitingSet = "waitingSet";
-    private static final String finishHash = "finishHash";
+    private static final String waitingSet = "waitingSet";    private static final String finishHash = "finishHash";
     private static final int crawlSec = 30;     // 单个页面爬取等待时间30s
     private static int recrawlSec = 3600 * 24;  // 热页重复爬取时间为一天
     private static long maxSec = recrawlSec * 365;     // 时间正无穷
