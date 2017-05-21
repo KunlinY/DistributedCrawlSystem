@@ -10,7 +10,7 @@ public class Main {
         System.out.println(d);
 
         Crawler crawler = new Crawler();
-        crawler.setRootURL("http://info.ruc.edu.cn/");
+        crawler.setRootURL("http://www.ruc.edu.cn/");
         crawler.addRegex(".*ruc.edu.cn.*");
         crawler.start();
     }

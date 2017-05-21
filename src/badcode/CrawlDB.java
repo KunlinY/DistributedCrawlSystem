@@ -23,6 +23,7 @@ public class CrawlDB {
         if (jedis == null) {
             try  {
                 jedis = new Jedis(host, port);
+                jedis.flushAll();
             }
             catch (Exception e) {
                 try {

@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static badcode.util.getTime;
+
 public class Fetcher extends Thread {
     private static AtomicInteger startThread = new AtomicInteger(0);
     private static AtomicInteger htmlCount = new AtomicInteger(0);
@@ -167,7 +169,7 @@ public class Fetcher extends Thread {
 
     private void writeFile(String html, String path) throws IOException {
         htmlCount.incrementAndGet();
-        File file = new File(path + htmlCount + ".html");
+        File file = new File(path + htmlCount+ "_" + getTime()  + ".html");
         if (!file.exists())
             file.createNewFile();
         (new FileOutputStream(file)).write((url + "\n" + html).getBytes());

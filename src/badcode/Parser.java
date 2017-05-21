@@ -16,7 +16,7 @@ public class Parser {
     private static final String aString = "(<a\\s[^>]+>)";
     private static final String hString = "href\\s?=\\s?(['\"]?)([^'\">\\s]+)\\1[>\\s]";
 
-    public static HashSet<URL> extractLink(String html, URL url) {
+    public HashSet<URL> extractLink(String html, URL url) {
         HashSet<URL> links = new HashSet<>();
         Matcher aTag = Pattern.compile(aString).matcher(html);
 
@@ -84,9 +84,5 @@ public class Parser {
             e.printStackTrace();
         }
         return links;
-    }
-
-    public static void main(String[] args) throws Exception{
-        extractLink(util.readFile("taobao.html"), new URL("http://info.ruc.edu.cn/"));
     }
 }
