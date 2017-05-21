@@ -1,0 +1,431 @@
+<html><head>
+    <meta http-equiv="content-type" content="text/html; charset = utf-8">
+    <meta name="author" content="杨美琦,吴振鹏">
+    <title>中国人民大学信息学院</title>
+
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/menu.js"></script>
+    <script type="text/javascript" src="js/slide_bar.js"></script>
+    <script type="text/javascript" src="js/quick_link.js"></script>
+    <script>
+		$(function(){
+			$('.main_top .change a').hover(function(){
+				var id=$(this).index();
+				$(this).addClass('hover').siblings().removeClass('hover');
+				$('.info .top_news:eq('+id+')').css('display','block').siblings('.top_news').css('display','none');
+				$('.info .news_list:eq('+id+') ').css('display','block').siblings('.news_list').css('display','none');
+			});
+		});
+	</script>
+</head>
+<body>
+<!--头部-->
+<!--头部-->
+
+<script type="text/javascript">
+        curMenu = 1;
+        window.onload = displayCurrent;
+        $(function(){
+			$("#search").click(function(){
+				$("#form").submit();
+			});
+        });
+    </script>
+<div id="top">
+    <div class="top_box">
+        <!--顶部-->
+        <div class="header">
+            <div class="logo"><a href="index.php"><img src="images/top_logo.jpg"></a></div>
+            <div class="link"><a href="overview_contact.php">联系我们 </a>|<a href="mailto:rucinfo@ruc.edu.cn"> 院长信箱 </a>|<a href="en/index.php"> English </a>|<a href="teacherlogin.html"> 教师入口 </a></div>
+            <div class="search">
+                <form id="form" method="get" action="search_news.php">
+                    <input class="input" name="name" id="name" type="text" value="输入关键字" onblur="if(this.value==''){this.value='输入关键字';$(this).css({color:'#BBBBBB'})}" onfocus="if(this.value=='输入关键字'){this.value='';$(this).css({color:'#000000'})}" style="color:#BBBBBB">
+                    <img class="button" id="search" src="images/top_search.png">
+                </form>
+            </div>
+        </div>
+        <!--导航菜单-->
+        <div class="menu">
+            <div class="menu_separator_box">
+                <div class="menu_separator1"><img src="images/menu_separator.png"></div>
+                <div class="menu_separator2"><img src="images/menu_separator.png"></div>
+                <div class="menu_separator3"><img src="images/menu_separator.png"></div>
+                <div class="menu_separator4"><img src="images/menu_separator.png"></div>
+                <div class="menu_separator5"><img src="images/menu_separator.png"></div>
+                <div class="menu_separator6"><img src="images/menu_separator.png"></div>
+                <div class="menu_separator7"><img src="images/menu_separator.png"></div>
+            </div>
+
+
+            <div id="menu_red_bg" style="left: -1px; display: inline;"></div>
+            <div class="menu_text_box">
+                <div class="menu_text" onmouseover="mouseOver(1)" onmouseout="mouseOut(1)"><div class="text"><a id="menu_text1" href="index.php" style="color: rgb(255, 255, 255);">首&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(2)" onmouseout="mouseOut(2)"><div class="text"><a id="menu_text2" href="overview_intro.php" style="color: rgb(0, 0, 0);">学院概况</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(3)" onmouseout="mouseOut(3)"><div class="text"><a id="menu_text3" href="news_list.php">新闻公告</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(4)" onmouseout="mouseOut(4)"><div class="text"><a id="menu_text4" href="education.php">人才培养</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(5)" onmouseout="mouseOut(5)"><div class="text"><a id="menu_text5" href="academic_faculty.php">师资科研</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(6)" onmouseout="mouseOut(6)"><div class="text"><a id="menu_text6" href="student.php">学生发展</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(7)" onmouseout="mouseOut(7)"><div class="text"><a id="menu_text7" href="internation_news.php">对外交流</a></div></div>
+                <div class="menu_text" onmouseover="mouseOver(8)" onmouseout="mouseOut(8)"><div class="text"><a id="menu_text8" href="alumni.php">院友之家</a></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--导航子菜单-->
+<div id="child_menu">
+    <div id="banner_shadow" style="display: none;"></div>
+    <div class="child_menu_box">
+        <div id="child_menu2" onmouseover="menuMouseOver(2)" onmouseout="menuMouseOut(2)" style="display: none;">
+            <div class="item"><a href="overview_intro.php">学院简介</a></div>
+            <div class="item"><a href="overview_dean.php">院长寄语</a></div>
+            <div class="item"><a href="overview_leadership.php">现任领导</a></div>
+            <div class="item"><a href="overview_structure.php">机构设置</a></div>
+            <div class="item"><a href="overview_contact.php">联系我们</a></div>
+        </div>
+        <div id="child_menu3" onmouseover="menuMouseOver(3)" onmouseout="menuMouseOut(3)">
+            <div class="item"><a href="news_list.php">学院新闻</a></div>
+            <div class="item"><a href="notice_list.php">学院公告</a></div>
+            <div class="item"><a href="album_list.php">信息相册</a></div>
+            <div class="item"><a href="focus_list.php">新闻人物</a></div>
+            <div class="item"><a href="video_list.php">信息影像</a></div>
+        </div>
+        <div id="child_menu4" onmouseover="menuMouseOver(4)" onmouseout="menuMouseOut(4)">
+            <div class="item"><a href="education_degree.php?id=1">本科生</a></div><div class="item"><a href="education_degree.php?id=2">学术型硕士</a></div><div class="item"><a href="education_degree.php?id=3">全日制工程硕士</a></div><div class="item"><a href="education_degree.php?id=4">博士生</a></div><div class="item"><a href="education_degree.php?id=5">在职工程硕士</a></div><div class="item"><a href="education_degree.php?id=6">同等学力</a></div>				<div class="item"><a href="education_notice.php">教育公告</a></div>
+        </div>
+        <div id="child_menu6" onmouseover="menuMouseOver(6)" onmouseout="menuMouseOut(6)">
+            <div class="item"><a href="party_notice_list.php">学生党建</a></div>
+            <div class="item"><a href="youth_news_list.php">团学风采</a></div>
+            <div class="item"><a href="employ_list.php">就业实习</a></div>
+            <div class="item"><a href="affair_list.php">学生事务</a></div>
+            <div class="item"><a href="scholarship_list.php">奖励资助</a></div>
+        </div>
+        <div id="child_menu5" onmouseover="menuMouseOver(5)" onmouseout="menuMouseOut(5)">
+            <div class="item"><a href="academic_faculty.php">师资队伍</a></div>
+            <div class="item"><a href="academic_research.php">学术科研</a></div>
+        </div>
+        <div id="child_menu7" onmouseover="menuMouseOver(7)" onmouseout="menuMouseOut(7)">
+            <div class="item"><a href="internation_news.php">外事新闻</a></div>
+            <div class="item"><a href="internation_info.php">交流信息</a></div>
+            <div class="item"><a href="internation_project.php">合作项目</a></div>
+            <div class="item"><a href="internation_guide.php">办事指南</a></div>
+            <div class="item"><a href="internation_journal.php">交流简报</a></div>
+            <div class="item"><a href="internation_experience.php">交流心得</a></div>
+        </div>
+        <div id="child_menu8" onmouseover="menuMouseOver(8)" onmouseout="menuMouseOut(8)">
+            <div class="item"><a href="alumni_news.php">院友新闻</a></div>
+            <div class="item"><a href="alumni_mien.php">院友风采</a></div>
+            <div class="item"><a href="alumni_namelist.php">院友名录</a></div>
+            <div class="item"><a href="alumni_journal.php">信息骄子</a></div>
+        </div>
+    </div>
+</div>
+
+
+<!--轮播图片-->
+<div id="banner">
+    <div class="banner_content">
+
+        <div class="pic_box" id="pic_box1" style="left: 0px; opacity: 1;">
+            <div class="pic1">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1384" target="_blank"><img class="pic" src="/userfiles/news/20170420005057496.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1384" target="_blank" title="我院师生赴延安开展主题党日活动">我院师生赴延安开展主题党日活动</a></p>
+                <p class="content">2017年4月14日至16日，我院党委书记陈红教授带领全院师生党员，前往革命圣地延安开展主题党日活动。</p>
+            </div>
+            <div class="pic2">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank"><img class="pic" src="/userfiles/news/20170507062318862.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank" title="欢迎参加2017年优秀大学生夏令营">欢迎参加2017年优秀大学生夏令营</a></p>
+                <p class="content">中国人民大学信息学院将于2017年7月10日-7月12日举办“2017年优秀大学生夏令营”，欢迎优秀学子报名参加！</p>
+            </div>
+            <div class="pic3">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/news_detail.php?id=1346" target="_blank"><img class="pic" src="/userfiles/news/20170329064719996.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/news_detail.php?id=1346" target="_blank" title="丘成桐教授做客“科学大讲堂”">丘成桐教授做客“科学大讲堂”</a></p>
+                <p class="content">2016年12月10日，中国人民大学“科学大讲堂”举行，国际知名数学家丘成桐教授作题为“科学与历史”的讲座。</p>
+            </div>
+        </div>
+        <div class="pic_box" id="pic_box2" style="left: 1300px; opacity: 0;">
+            <div class="pic1">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1345" target="_blank"><img class="pic" src="/userfiles/news/20170330063048419.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1345" target="_blank" title="我校首次获得教育部科技进步一等奖">我校首次获得教育部科技进步一等奖</a></p>
+                <p class="content">信息学院杜小勇、陈红、张孝、张延松、李翠平、陆嘉恒、王珊申报的项目，获评教育部2016年科技进步一等奖。</p>
+            </div>
+            <div class="pic2">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank"><img class="pic" src="/userfiles/news/20170507061956542.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank" title="欢迎参加2017年优秀大学生夏令营">欢迎参加2017年优秀大学生夏令营</a></p>
+                <p class="content">中国人民大学信息学院将于2017年7月10日-7月12日举办“2017年优秀大学生夏令营”，欢迎优秀学子报名参加！</p>
+            </div>
+            <div class="pic3">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1350" target="_blank"><img class="pic" src="/userfiles/news/20161226061616351.jpg"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1350" target="_blank" title="信息学院校友分会举办2016年会">信息学院校友分会举办2016年会</a></p>
+                <p class="content">2016年12月18日，“跨界·融合”中国人民大学校友会信息学院分会2016年会暨信息金融发展俱乐部年度论坛召开。</p>
+            </div>
+        </div>
+        <div class="pic_box" id="pic_box3" style="left: -1300px; opacity: 0;">
+            <div class="pic1">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1348" target="_blank"><img class="pic" src="/userfiles/news/20161226055929680.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1348" target="_blank" title="第八届萨师煊精英基金颁奖典礼举行">第八届萨师煊精英基金颁奖典礼举行</a></p>
+                <p class="content">2016年12月18日，信息学院“信火相传”第八届萨师煊精英基金颁奖典礼暨2017年元旦联欢会在八百人大教室举行。</p>
+            </div>
+            <div class="pic2">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank"><img class="pic" src="/userfiles/news/20170428083703945.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank" title="欢迎参加2017年优秀大学生夏令营">欢迎参加2017年优秀大学生夏令营</a></p>
+                <p class="content">中国人民大学信息学院将于2017年7月10日-7月12日举办“2017年优秀大学生夏令营”，欢迎优秀学子报名参加！</p>
+            </div>
+            <div class="pic3">
+                <div class="pic_box_bg"></div>
+                <a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1323" target="_blank"><img class="pic" src="/userfiles/news/20161226055640400.png"></a>
+                <p class="title"><a href="http://info.ruc.edu.cn/news_convert_detail.php?id=1323" target="_blank" title="“大数据之人大力量”学术节举办">“大数据之人大力量”学术节举办</a></p>
+                <p class="content">2016年11月12日，第二届中国人民大学计算机系学术节顺利举行。</p>
+            </div>
+        </div>			<div class="slide_bar_box">
+        <div class="slide_bar" id="slide_bar1" onmouseover="slideBarMouseOver1(1)" onmouseout="slideBarMouseOut1(1)" style="background-color: rgb(174, 12, 42);"></div>
+        <div class="slide_bar" id="slide_bar2" onmouseover="slideBarMouseOver1(2)" onmouseout="slideBarMouseOut1(2)" style="background-color: rgb(180, 180, 180);"></div>
+        <div class="slide_bar" id="slide_bar3" onmouseover="slideBarMouseOver1(3)" onmouseout="slideBarMouseOut1(3)" style="background-color: rgb(180, 180, 180);"></div>
+    </div>
+    </div>
+</div>
+
+<!--主体-->
+<div id="main">
+    <div class="main_box">
+        <div class="info">
+            <div class="main_top">
+                <div class="icon"><a href="notice_list.php" target="_blank"><img src="images/main_top_info.png"></a></div>
+                <div class="links change">
+                    <a class="hover" href="notice_list.php" target="_blank">学院公告</a>
+                    <a class="" href="youth_activity_list.php" target="_blank">活动预告</a>
+                    <a class="" href="academic_lecture_list.php" target="_blank">讲座信息</a>
+                    <a class="" href="internation_info.php" target="_blank">对外交流</a>
+                </div>
+            </div>
+            <div class="top_news" style="display:block;">
+
+                <div class="title"><a href="notice_convert_detail.php?id=1751" target="_blank" title="关于选聘2017级班级辅导员的通知">关于选聘2017级班级辅导员的通知</a></div>
+                <div class="date"><span class="day">16</span><span class="month">/05 2017</span></div>
+                <div class="content">班级辅导员是我校学生工作体系和辅导员队伍的重要组成部分，是学校推进本科人才培养路线图和厚重人才培养的重要工作抓手。为进一步加强班级辅导员队伍建...</div>
+            </div>
+            <div class="news_list" style="display:block;">
+                <ul>
+                    <li><a href="notice_convert_detail.php?id=1750" target="_blank" title="2017年大学生创新实验计划学院推荐名单">2017年大学生创新实验计划学院推荐名单</a><span class="date">[05-16]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1748" target="_blank" title="【同等学力】2017上办理资格卡通知">【同等学力】2017上办理资格卡通知</a><span class="date">[05-15]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1747" target="_blank" title="关于2017全国大学生数学建模竞赛报名及领取2016年全国大学生数学建模竞赛获奖证书的通知">关于2017全国大学生数学建模竞赛报名及...</a><span class="date">[05-12]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1746" target="_blank" title="信息学院博士学位论文答辩会信息公示">信息学院博士学位论文答辩会信息公示</a><span class="date">[05-12]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1745" target="_blank" title="中国人民大学信息学院优秀应届本科毕业生免试攻读研究生推荐工作实施办法">中国人民大学信息学院优秀应届本科毕业...</a><span class="date">[05-11]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1744" target="_blank" title="信息学院2017年新增博士研究生指导教师资格名单公示">信息学院2017年新增博士研究生指导教师...</a><span class="date">[05-07]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1743" target="_blank" title="信息学院2017年新增硕士生导师名单公示">信息学院2017年新增硕士生导师名单公示</a><span class="date">[05-07]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1742" target="_blank" title="中国人民大学信息学院2017年优秀大学生夏令营招生简章">中国人民大学信息学院2017年优秀大学生...</a><span class="date">[04-27]</span></li>
+                    <li><a href="notice_convert_detail.php?id=1741" target="_blank" title="信息学院分团委共青团中国人民大学第十八次代表大会代表候选人建议名单公示">信息学院分团委共青团中国人民大学第十...</a><span class="date">[04-25]</span></li>
+                </ul>				</div>
+            <div class="top_news" style="display:none;">
+
+                <div class="title"><a href="youth_activity_detail.php?id=306" target="_blank" title="关于举办“第三届（2017）北京高校数学微课程教学设计竞赛”及参赛教师培训会的通知">关于举办“第三届（2017）北京高校数学微程...</a></div>
+                <div class="date"><span class="day">13</span><span class="month">/04 2017</span></div>
+                <div class="content">为贯彻落实《教育部关于全面提高高等教育质量的若干意见》精神，推动北京高等学校大学数学课程教学改革，鼓励教师将信息技术与教育教学内容紧密融合，促进教...</div>
+            </div>
+            <div class="news_list" style="display:none;">
+                <ul>
+                    <li><a href="youth_activity_detail.php?id=305" target="_blank" title="关于举办“第四届全国高校移动互联网应用开发创新大赛”的通知">关于举办“第四届全国高校移动互联网应...</a><span class="date">[04-13]</span></li>
+                    <li><a href="youth_activity_detail.php?id=304" target="_blank" title="关于举办第二届“中国高校计算机大赛 —大数据挑战赛” （2017 年）的通知">关于举办第二届“中国高校计算机大赛 ...</a><span class="date">[04-13]</span></li>
+                    <li><a href="youth_activity_detail.php?id=303" target="_blank" title="2016——2017秋季学期社会实践卡活动填写及认证通知【更新】">2016——2017秋季学期社会实践卡活动填...</a><span class="date">[09-26]</span></li>
+                    <li><a href="youth_activity_detail.php?id=302" target="_blank" title="2016阿里巴巴“阿里中间件性能挑战赛”">2016阿里巴巴“阿里中间件性能挑战赛”</a><span class="date">[06-06]</span></li>
+                    <li><a href="youth_activity_detail.php?id=301" target="_blank" title="信息学院第三十九届学生代表大会公告">信息学院第三十九届学生代表大会公告</a><span class="date">[05-24]</span></li>
+                    <li><a href="youth_activity_detail.php?id=300" target="_blank" title="关于举办“第三届全国高校移动互联网应用开发创新大赛”通知">关于举办“第三届全国高校移动互联网应...</a><span class="date">[05-11]</span></li>
+                    <li><a href="youth_activity_detail.php?id=299" target="_blank" title="首届中国高校计算机大赛-大数据挑战赛">首届中国高校计算机大赛-大数据挑战赛</a><span class="date">[05-10]</span></li>
+                    <li><a href="youth_activity_detail.php?id=298" target="_blank" title="首届中国高校计算机大赛-大数据挑战赛即将开赛">首届中国高校计算机大赛-大数据挑战赛...</a><span class="date">[05-10]</span></li>
+                    <li><a href="youth_activity_detail.php?id=297" target="_blank" title="“信手相连”辅导员招聘通知">“信手相连”辅导员招聘通知</a><span class="date">[04-17]</span></li>
+                </ul>				</div>
+            <div class="top_news" style="display:none;">
+
+                <div class="title"><a href="academic_research_lecture.php?id=307" target="_blank" title="数学系学术报告Nonlinear Sch\\\\\\">数学系学术报告Nonlinear Sch\\\\\...</a></div>
+                <div class="date"><span class="day">19</span><span class="month">/04 2017</span></div>
+                <div class="content">摘要：We introduce the nonlinear Schr\"{o}dinger equation on a locally finite graph. Via the Nehari method, if $a(x)$ satisfies c...</div>
+            </div>
+            <div class="news_list" style="display:none;">
+                <ul>
+                    <li><a href="academic_research_lecture.php?id=306" target="_blank" title="学术报告-新加坡国立大学何向南博士">学术报告-新加坡国立大学何向南博士</a><span class="date">[04-13]</span></li>
+                    <li><a href="academic_research_lecture.php?id=305" target="_blank" title="信息讲坛：广义相对论中的几何分析介绍">信息讲坛：广义相对论中的几何分析介绍</a><span class="date">[04-07]</span></li>
+                    <li><a href="academic_research_lecture.php?id=304" target="_blank" title="数学系应聘者公开试讲">数学系应聘者公开试讲</a><span class="date">[04-05]</span></li>
+                    <li><a href="academic_research_lecture.php?id=303" target="_blank" title="数学系几何分析研讨班第八讲">数学系几何分析研讨班第八讲</a><span class="date">[03-22]</span></li>
+                    <li><a href="academic_research_lecture.php?id=302" target="_blank" title="偏微分方程小型研讨会">偏微分方程小型研讨会</a><span class="date">[03-20]</span></li>
+                    <li><a href="academic_research_lecture.php?id=301" target="_blank" title="第六次青年几何分析小组会议通知">第六次青年几何分析小组会议通知</a><span class="date">[03-15]</span></li>
+                    <li><a href="academic_research_lecture.php?id=300" target="_blank" title="第五次青年几何分析小组会议">第五次青年几何分析小组会议</a><span class="date">[02-21]</span></li>
+                    <li><a href="academic_research_lecture.php?id=299" target="_blank" title="信息讲坛：Introduction to Social Computing">信息讲坛：Introduction to Social Comp...</a><span class="date">[02-15]</span></li>
+                    <li><a href="academic_research_lecture.php?id=298" target="_blank" title="计算机系学术报告">计算机系学术报告</a><span class="date">[01-04]</span></li>
+                </ul>				</div>
+            <div class="top_news" style="display:none;">
+
+                <div class="title"><a href="notice_detail.php?id=1734" target="_blank" title="意大利萨勒诺大学招收硕士生">意大利萨勒诺大学招收硕士生</a></div>
+                <div class="date"><span class="day">07</span><span class="month">/04 2017</span></div>
+                <div class="content">意大利萨勒诺大学Università degli Studi di Salerno正在招收硕士生，Business Innovation and Informatics方向。提供丰厚的奖学金。申请要求：英...</div>
+            </div>
+            <div class="news_list" style="display:none;">
+                <ul>
+                    <li><a href="notice_detail.php?id=1670" target="_blank" title="法国图卢兹大学招收CSC博士生（数据管理方向）">法国图卢兹大学招收CSC博士生（数据管理...</a><span class="date">[09-22]</span></li>
+                    <li><a href="notice_detail.php?id=1633" target="_blank" title="香港中文大学系统工程系暑期本科生研习计划">香港中文大学系统工程系暑期本科生研习...</a><span class="date">[04-18]</span></li>
+                    <li><a href="notice_detail.php?id=1621" target="_blank" title="关于哥伦比亚大学2016暑期学期项目报名的通知">关于哥伦比亚大学2016暑期学期项目报名...</a><span class="date">[03-22]</span></li>
+                    <li><a href="notice_detail.php?id=1619" target="_blank" title="选拔本科生于2016年秋季赴卢森堡大学学习交换（补选）的通知">选拔本科生于2016年秋季赴卢森堡大学学...</a><span class="date">[03-22]</span></li>
+                    <li><a href="notice_detail.php?id=74" target="_blank" title="牛津大学暑期访学课程项目通知">牛津大学暑期访学课程项目通知</a><span class="date">[04-17]</span></li>
+                    <li><a href="notice_detail.php?id=194" target="_blank" title="2013-2014学年中国人民大学本科生赴欧美及亚洲地区学习项目选派计划">2013-2014学年中国人民大学本科生赴欧...</a><span class="date">[03-08]</span></li>
+                    <li><a href="notice_detail.php?id=206" target="_blank" title="关于2013年度选拔赴麻省理工学院、哈佛大学攻读硕士学位人选的通知">关于2013年度选拔赴麻省理工学院、哈佛...</a><span class="date">[12-29]</span></li>
+                    <li><a href="notice_detail.php?id=245" target="_blank" title="2012-2013学年中国人民大学本科生赴欧美地区及亚洲地区交换生选派计划">2012-2013学年中国人民大学本科生赴欧...</a><span class="date">[09-18]</span></li>
+                    <li><a href="notice_detail.php?id=280" target="_blank" title="关于增加英国爱丁堡大学为本科生2012年“学生国际交流校长奖学金” 项目派往学校的通知">关于增加英国爱丁堡大学为本科生2012年...</a><span class="date">[05-07]</span></li>
+                </ul>				</div>
+            <div class="main_bottom"><img src="images/main_bottom.png"></div>
+        </div>
+
+        <div class="news">
+            <div class="main_top">
+                <div class="icon"><a href="news_list.php" target="_blank"><img src="images/main_top_news.png"></a></div>
+                <div class="more"><a href="news_list.php" target="_blank"><img src="images/main_more.png"></a></div>
+            </div>
+            <div class="pic_news">
+
+                <div class="news_pic"><a href="news_convert_detail.php?id=1394" target="_blank"><img style="width:94px;height:94px;" src="/userfiles/news/20170518025609727.jpg"></a></div>
+                <div class="title"><a href="news_convert_detail.php?id=1394" target="_blank" title="我院2017春季学期“人大使者母校行”活动成功举办">我院2017春季学期“人大使者母...</a></div>
+                <div class="content">4月15日至5月16日，信息学院2017年春季学期“人大使者母校行”活动成功举办。本次活动共计走访高校近20所，各团队召集共750余人参加...</div>
+            </div>
+            <div class="news_list">
+                <ul>
+                    <li><a href="news_convert_detail.php?id=1393" target="_blank" title="信息学院校友会·芥菜子流动图书馆 “台路沟小学乡村图书馆”揭牌开馆">信息学院校友会·芥菜子流动图书馆 “...</a><span class="date">[05-18]</span></li>
+                    <li><a href="news_convert_detail.php?id=1391" target="_blank" title="信息学院举办王珊教授荣获IEEE TCDE卓越服务奖暨生日祝贺会">信息学院举办王珊教授荣获IEEE TCDE卓...</a><span class="date">[04-29]</span></li>
+                    <li><a href="news_convert_detail.php?id=1392" target="_blank" title="信息学院研究生求职经验分享会顺利举办">信息学院研究生求职经验分享会顺利举办</a><span class="date">[04-28]</span></li>
+                    <li><a href="news_convert_detail.php?id=1389" target="_blank" title="杜小勇教授看望我院在加州大学圣地亚哥分校学习的毕业生并座谈">杜小勇教授看望我院在加州大学圣地亚哥...</a><span class="date">[04-27]</span></li>
+                    <li><a href="news_convert_detail.php?id=1388" target="_blank" title="“数据库系统概论”MOOC建设与应用第二届研讨会顺利召开">“数据库系统概论”MOOC建设与应用第二...</a><span class="date">[04-26]</span></li>
+                    <li><a href="news_convert_detail.php?id=1387" target="_blank" title="我院教师在第九届青年教师教学基本功比赛中获得佳绩">我院教师在第九届青年教师教学基本功比...</a><span class="date">[04-24]</span></li>
+                    <li><a href="news_convert_detail.php?id=1390" target="_blank" title="美国德克萨斯大学堵丁柱教授、北京大学史宇光教授做客“信息讲坛”">美国德克萨斯大学堵丁柱教授、北京大学...</a><span class="date">[04-23]</span></li>
+                    <li><a href="news_convert_detail.php?id=1385" target="_blank" title="梁循教授讲党课：解读实事求是精神">梁循教授讲党课：解读实事求是精神</a><span class="date">[04-21]</span></li>
+                    <li><a href="news_convert_detail.php?id=1384" target="_blank" title="我院师生赴延安开展主题党日活动">我院师生赴延安开展主题党日活动</a><span class="date">[04-20]</span></li>					</ul>
+            </div>
+            <div class="main_bottom"><img src="images/main_bottom.png"></div>
+        </div>
+
+
+        <div class="people">
+            <div class="main_top">
+                <div class="icon"><a href="focus_list.php" target="_blank"><img src="images/main_top_people.png"></a></div>
+                <div class="more"><a href="focus_list.php" target="_blank"><img src="images/main_more.png"></a></div>
+            </div>
+
+            <div class="pic_news">
+                <div class="news_pic"><a href="news_detail.php?id=1383" target="_blank"><img style="width:94px;height:94px;" src="/userfiles/news/20170418065423363.jpg"></a></div>
+                <div class="title"><a href="news_detail.php?id=1383" target="_blank" title="创业与人生的无限——专访94级校友黄海旻">创业与人生的无限——专访94...</a></div>
+                <div class="content">黄海旻，信息学院94级经济信息管理专业，后赴加拿大Simon&nbsp;Fraser大学攻读计算机科学硕士，师从韩家炜教授，从事数据挖掘方向。2014...</div>
+            </div>
+            <div class="pic_news">
+                <div class="news_pic"><a href="news_detail.php?id=1382" target="_blank"><img style="width:94px;height:94px;" src="/userfiles/news/20170418064311756.jpg"></a></div>
+                <div class="title"><a href="news_detail.php?id=1382" target="_blank" title="从人大到哈佛——专访2011级本科生王歆媛">从人大到哈佛——专访2011级...</a></div>
+                <div class="content">王歆媛，中国人民大学信息学院2011级本科生，大三参加纽约州立大学交换项目，前往纽约州立大学宾汉姆顿分校深造两年，获得计算机、数学学...</div>
+            </div>
+            <div class="pic_news" id="pic_news_last">
+                <div class="news_pic"><a href="news_detail.php?id=1377" target="_blank"><img style="width:94px;height:94px;" src="/userfiles/news/20170323020039332.jpg"></a></div>
+                <div class="title"><a href="news_detail.php?id=1377" target="_blank" title="而今迈步从头越——82级校友返校采访纪实">而今迈步从头越——82级校友...</a></div>
+                <div class="content">2016年10月3日，中国人民大学79周年校庆暨校友返校活动热烈展开，82级校友返校积极参与活动，中国人民大学信息学院老院长陈禹、老书记...</div>
+            </div>				<div class="main_bottom"><img src="images/main_bottom.png"></div>
+        </div>
+
+
+        <div class="video">
+            <div class="main_top">
+                <div class="icon"><a href="video_list.php" target="_blank"><img src="images/main_top_video.png"></a></div>
+                <div class="more"><a href="video_list.php" target="_blank"><img src="images/main_more.png"></a></div>
+            </div>
+            <div class="block">
+                <div class="cover"><img src="/userfiles/video_pic/20160713113439442.png"></div>
+                <div class="mask"><a href="video_detail.php?id=12" target="_blank"><img src="images/news/video/mask_index.png"></a></div>
+            </div>
+            <div class="video_name"><a href="video_detail.php?id=12" target="_blank" title="信息欢迎你">信息欢迎你</a></div>
+        </div>
+
+
+        <div class="enroll">
+            <div class="main_top">
+                <div class="icon"><a href="employ_list.php" target="_blank"><img src="images/main_top_enrollment.png"></a></div>
+                <div class="more"><a href="employ_list.php" target="_blank"><img src="images/main_more.png"></a></div>
+            </div>
+            <div class="top_news">
+
+                <div class="title"><a href="education_degree_detail.php?inner=1&amp;type=5&amp;id=15" target="_blank" title="2017年工程硕士专业学位研究生招生简章">2017年工程硕士专业学位研究生招生简章</a></div>
+                <div class="date"><span class="day">07</span><span class="month">/05 2017</span></div>
+                <div class="content">为更好地适应国家经济社会发展对高层次、多类型人才的需要，增强研究生教育服务经济社会发展能力，加快研究生教育结构调整优化的步伐，努力提高研究生选拔...</div>				</div>
+            <div class="news_list">
+                <ul>
+
+                    <li><a href="education_degree_detail.php?inner=1&amp;type=3&amp;id=14" target="_blank" title="2017年工程硕士专业学位研究生招生简章">2017年工程硕士专业学位研究生招生简章</a><span class="date">[01-01]</span></li>
+                    <li><a href="employ_detail.php?id=32" target="_blank" title="阿卜杜拉国王科技大学招收两名计算机全奖博士">阿卜杜拉国王科技大学招收两名计算机全...</a><span class="date">[04-13]</span></li>
+                    <li><a href="employ_detail.php?id=31" target="_blank" title="意大利萨勒诺大学招收Business Innovation and Informatics方向硕士生">意大利萨勒诺大学招收Business Innovat...</a><span class="date">[04-07]</span></li>
+                    <li><a href="intern_detail.php?id=18" target="_blank" title="“风旅行”招募实习生计划">“风旅行”招募实习生计划</a><span class="date">[10-09]</span></li>					</ul>
+            </div>
+        </div>
+
+
+        <div class="journal">
+            <div class="main_top">
+                <div class="icon"><a href="youth_ebook_list.php" target="_blank"><img src="images/main_top_journal.png"></a></div>
+                <div class="more"><a href="youth_ebook_list.php" target="_blank"><img src="images/main_more.png"></a></div>
+            </div>
+            <div class="journal_box">
+                <div id="journal_list" style="left: -176px;">
+
+                    <a href="/userfiles/ebook/1492467959393/index.html" target="_blank"><img class="journal_pic" src="/userfiles/ebook_page/20170418062648733.jpg"></a>
+                    <a href="/userfiles/ebook/1463638195217/index.html" target="_blank"><img class="journal_pic" src="/userfiles/ebook_page/20160519141206189.jpg"></a>
+                    <a href="/userfiles/ebook/1421374150602/index.html" target="_blank"><img class="journal_pic" src="/userfiles/ebook_page/20150116095958344.jpg"></a>					</div>
+            </div>
+            <div class="journal_slide_bar_box">
+                <div class="journal_slide_bar" id="journal_slide_bar1" onmouseover="slideBarMouseOver2(1)" onmouseout="slideBarMouseOut2(1)" style="background-color: rgb(180, 180, 180);"></div>
+                <div class="journal_slide_bar" id="journal_slide_bar2" onmouseover="slideBarMouseOver2(2)" onmouseout="slideBarMouseOut2(2)" style="background-color: rgb(174, 12, 42);"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--底部-->
+<div id="footer">
+    <div class="links">
+        <div class="links_box">
+            <div class="quick_link">快速链接</div>
+            <div class="separator"><img src="images/footer_separator.png"></div>
+            <div class="left_icon"><img src="images/footer_left_icon.png"></div>
+            <div class="link_list">
+                <ul style="width: 1649px;">
+                    <li><a href="http://info.ruc.edu.cn/salao/" target="_blank">萨师煊精英基金</a></li><li><a href="http://www.jokcool.com/" target="_blank">学生活动管理系统</a></li><li><a href="http://info.ruc.edu.cn/SummerSchool2017/" target="_blank">优秀大学生暑期夏令营</a></li><li><a href="http://deke.ruc.edu.cn/" target="_blank">DEKE教育部重点实验室</a></li><li><a href="http://rss.ruc.edu.cn/" target="_blank">系统科学与智能商务系统实验室</a></li><li><a href="http://ims.ruc.edu.cn/" target="_blank">中国人民大学数学科学研究院</a></li><li><a href="http://bdai.ruc.edu.cn" target="_blank">大数据分析与智能实验室</a></li><li><a href="http://bi.ruc.edu.cn/index.html" target="_blank">数据仓库与商务智能实验室</a></li><li><a href="http://idke.ruc.edu.cn/" target="_blank">WAMDM实验室</a></li><li><a href="http://iir.ruc.edu.cn/" target="_blank">数据库与智能信息检索实验室</a></li><li><a href="http://202.112.113.2/cs4hs2012/" target="_blank">CS4HS2013</a></li><li><a href="http://www.rucmis.net/" target="_blank">经济信息管理系</a></li><li><a href="http://www.rdyjs.com/kc/xxxy.html" target="_blank">在职研究生招生网</a></li>					</ul>
+            </div>
+            <div class="right_icon"><img src="images/footer_right_icon.png"></div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <!-- 底部 -->
+    <div id="footer">
+        <div class="bottom">
+            <div class="bottom_box">
+                <div class="wechat">
+                    <div style="width:100px;">
+                        <img src="images/wechat.jpg" style="width:95px;margin-bottom:10px">
+                        公众微信二维码
+                    </div>
+                </div>
+                <div class="copy_right">Copyright © 2015 School of Information, Renmin University of China. All rights reserved.</div>
+                <div class="copy_right_cn">版权所有 中国人民大学信息学院</div>
+                <div class="address">地址：北京市海淀区中关村大街59号</div>
+                <div class="email">邮编：100872</div>
+            </div>
+        </div>
+    </div>
+    <div style="display:none;">
+        <script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+			document.write(unescape("%3Cspan id='cnzz_stat_icon_1254120420'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1254120420' type='text/javascript'%3E%3C/script%3E"));
+		</script><span id="cnzz_stat_icon_1254120420"><a href="http://www.cnzz.com/stat/website.php?web_id=1254120420" target="_blank" title="站长统计">站长统计</a></span><script src=" http://s11.cnzz.com/z_stat.php?id=1254120420" type="text/javascript"></script><script src="http://c.cnzz.com/core.php?web_id=1254120420&amp;t=z" charset="utf-8" type="text/javascript"></script>
+    </div>	</div>
+
+</body></html>

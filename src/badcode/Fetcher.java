@@ -8,6 +8,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.util.Cookie;
+import org.jooq.util.derby.sys.Sys;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -21,8 +22,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Fetcher extends Thread {
     private static AtomicInteger startThread = new AtomicInteger(0);
-    private static String pagePath = "\\pages\\";
-    private static String infoPath = "\\info\\";
+    private static AtomicInteger htmlCount = new AtomicInteger(0);
+    private static String pagePath = ".\\pages\\";
+    private static String infoPath = ".\\info\\";
     private int threadID;
 
     private WebClient webClient=new WebClient();
@@ -33,6 +35,8 @@ public class Fetcher extends Thread {
     private Crawler crawler;
     private boolean alive = true;
     private boolean doNLP = false;
+
+    String url = "";
 
     Fetcher(Crawler crawler, Generator generator, boolean NLP){
         webClient.getOptions().setJavaScriptEnabled(false);
@@ -51,7 +55,12 @@ public class Fetcher extends Thread {
         super.run();
 
         threadID = startThread.incrementAndGet();
-        String url;
+
+        try {
+            Thread.sleep(threadID * 100);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         while (alive) {
             try {
@@ -62,23 +71,30 @@ public class Fetcher extends Thread {
                     continue;
                 }
 
-                if (CrawlDB.addDirtyURL(url) <= 0)
+                if (CrawlDB.addCleanURL(url) < 0)
                     continue;
 
                 String html = getXmlResponse(url);
+                System.out.println(url);
 
-                writeFile(html, url, pagePath);
+                writeFile(html, pagePath);
                 crawler.inject(parser.extractLink(html, new URL(url)));
-                NLP(url);
+                //NLP(url);
             }
             catch (Exception e) {
                 System.out.println("Error fetching url!");
-                e.printStackTrace();
+                try {
+                    Thread.sleep(100);
+                } catch (Exception ee) {
+                    continue;
+                }
             }
         }
     }
 
     public void kill() {
+        Date d = new Date();
+        System.out.println(d);
         alive = false;
         interrupt();
     }
@@ -149,11 +165,15 @@ public class Fetcher extends Thread {
         return str;
     }
 
-    private void writeFile(String html, String name, String path) throws IOException {
-        File file = new File(path + name + ".html");
+    private void writeFile(String html, String path) throws IOException {
+        htmlCount.incrementAndGet();
+        File file = new File(path + htmlCount + ".html");
         if (!file.exists())
             file.createNewFile();
-        (new BufferedWriter(new FileWriter(file))).write(html);
+        (new BufferedWriter(new FileWriter(file))).write(url + "\n" + html);
+
+        if (htmlCount.get() > 1000)
+            kill();
     }
 
     private void NLP(String url) throws Exception{
@@ -162,7 +182,7 @@ public class Fetcher extends Thread {
         NLP.News content = jParser.getContent(item);
 
         if (content != null) {
-            writeFile(content.content, content.title, infoPath);
+            writeFile(content.content, infoPath);
             if (doNLP) {
                 NLP.Words words = jParser.getWords(getPdoc(item));
                 words.dump();

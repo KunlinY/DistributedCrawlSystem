@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Crawler {
-    private Generator generator = () -> CrawlDB.getURL();
-    private String rootURL;
+    private static Generator generator = () -> CrawlDB.getURL();
+    private static String rootURL;
     private ArrayList<String> patterns = new ArrayList<>();
-    private int threadsNum = 10;
+    private int threadsNum = 100;
     private ArrayList<Fetcher> fetchers = new ArrayList<>();
     private boolean doNLP = false;
+
+    public Crawler() {
+
+    }
 
     public Crawler(boolean isMaster, boolean NLP) {
         doNLP = NLP;
@@ -25,6 +29,7 @@ public class Crawler {
 
     public void setRootURL(String url) {
         rootURL = url;
+        CrawlDB crawlDB = new CrawlDB();
         CrawlDB.addDirtyURL(rootURL);
     }
 
@@ -52,6 +57,10 @@ public class Crawler {
     }
 
     public void start() {
+        if (rootURL == null) {
+            System.out.println("Please input the root url");
+            return;
+        }
         multiThread();
     }
 

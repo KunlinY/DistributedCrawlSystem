@@ -6,6 +6,7 @@ import org.jooq.impl.DSL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class NLP {
@@ -42,10 +43,10 @@ public class NLP {
     }
 
     public class Words {
-        HashSet<String> organization, idiom, person, location, properNoun,
+        HashMap<String, Integer> organization, idiom, person, location, properNoun,
                 topic, positive, negative;
 
-        Words (ArrayList<HashSet<String>> list) {
+        Words (ArrayList<HashMap<String, Integer> > list) {
 
         }
 
