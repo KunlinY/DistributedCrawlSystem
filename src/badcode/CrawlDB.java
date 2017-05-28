@@ -11,7 +11,9 @@ public class CrawlDB {
     private static Jedis jedis;
 
     // Redis 相关常量设置
-    private static final String waitingSet = "waitingSet";    private static final String finishHash = "finishHash";
+    private static final String waitingSet = "waitingSet";
+    private static final String finishHash = "finishHash";
+    private static final String pagesList = "pagesList";
     private static final int crawlSec = 30;     // 单个页面爬取等待时间30s
     private static int recrawlSec = 3600 * 24;  // 热页重复爬取时间为一天
     private static long maxSec = recrawlSec * 365;     // 时间正无穷
@@ -23,7 +25,6 @@ public class CrawlDB {
         if (jedis == null) {
             try  {
                 jedis = new Jedis(host, port);
-                jedis.flushAll();
             }
             catch (Exception e) {
                 try {
@@ -92,6 +93,24 @@ public class CrawlDB {
         return true;
     }
 
+    synchronized public static boolean addPages(String url, String html) {
+        try {
+            jedis.lpush(pagesList, url + "\r\n" + html);
+        } catch (Exception e) {
+            System.out.println(url + " add failed...");
+            return false;
+        }
+        return true;
+    }
+
+    synchronized public static String getPage() throws Exception {
+        try {
+            return jedis.lpop(pagesList);
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
     // 从waitList待爬取队列中返回URL
     // 无URL则返回空字符串
     synchronized public static String getURL() {
@@ -99,6 +118,10 @@ public class CrawlDB {
         if (url == null)
             return "";
         return url.equals("nil") ? "" : url;
+    }
+
+    public static void flushDB() {
+        jedis.flushAll();
     }
 
     // 返回URL的剩余时间

@@ -5,22 +5,23 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Crawler {
+
     private static Generator generator = () -> CrawlDB.getURL();
     private static String rootURL;
     private ArrayList<String> patterns = new ArrayList<>();
     private int threadsNum = 20;
     private ArrayList<Fetcher> fetchers = new ArrayList<>();
-    private boolean doNLP = false;
+    public static boolean isNews = true;
+    public static boolean isMaster = true;
 
-    public Crawler() {
-
+    public Crawler(boolean isMaster, boolean isNews) {
+        this.isNews = isNews;
+        this.isMaster = isMaster;
+        CrawlDB crawlDB = new CrawlDB();
     }
 
-    public Crawler(boolean isMaster, boolean NLP) {
-        doNLP = NLP;
-        if (!isMaster) {
-            // TODO master & slave
-        }
+    public void flush() {
+        CrawlDB.flushDB();
     }
 
     public void setGenerator(Generator g) {
@@ -29,7 +30,6 @@ public class Crawler {
 
     public void setRootURL(String url) {
         rootURL = url;
-        CrawlDB crawlDB = new CrawlDB();
         CrawlDB.addDirtyURL(rootURL);
     }
 
@@ -74,9 +74,16 @@ public class Crawler {
 
     private void multiThread() {
         for (int i = 0; i < threadsNum; i++) {
-            Fetcher fetcher = new Fetcher(this, generator, doNLP);
+            Fetcher fetcher = new Fetcher(this, generator, isNews);
             fetchers.add(fetcher);
             fetcher.start();
+        }
+
+        if (isMaster) {
+            for (int i = 0; i < threadsNum / 2 + 1; i++) {
+                Master master = new Master(isNews);
+                master.start();
+            }
         }
     }
 }

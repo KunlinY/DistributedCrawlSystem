@@ -2,20 +2,10 @@ package badcode;
 
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequest;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 import com.gargoylesoftware.htmlunit.util.Cookie;
-import org.jooq.util.derby.sys.Sys;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,17 +26,17 @@ public class Fetcher extends Thread {
     private Generator generator;
     private Crawler crawler;
     private boolean alive = true;
-    private boolean doNLP = false;
+    private boolean isNews = true;
 
     String url = "";
 
-    Fetcher(Crawler crawler, Generator generator, boolean NLP){
+    Fetcher(Crawler crawler, Generator generator, boolean isNews){
         webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getCookieManager().setCookiesEnabled(true);
 
-        this.doNLP = NLP;
+        this.isNews = isNews;
         this.generator = generator;
         this.crawler = crawler;
     }
@@ -77,65 +67,31 @@ public class Fetcher extends Thread {
                     continue;
 
                 String html = getXmlResponse(url);
-                System.out.println(url);
-
-                writeFile(html, pagePath);
                 crawler.inject(parser.extractLink(html, new URL(url)));
-                //NLP(url);
+
+                if (Crawler.isMaster) {
+                    writeHtml(url + "\r\n" + html);
+                    CrawlDB.addCleanURL(url, NLP(html, url));
+                }
+                else {
+                    CrawlDB.addPages(url, html);
+                    CrawlDB.addCleanURL(url, false);
+                }
             }
             catch (Exception e) {
-                System.out.println("Error fetching url!");
+                System.out.println("Error fetching url " + url);
                 try {
                     Thread.sleep(100);
                 } catch (Exception ee) {
-                    continue;
+
                 }
             }
         }
     }
 
     public void kill() {
-        Date d = new Date();
-        System.out.println(d);
         alive = false;
         interrupt();
-    }
-
-    private String getMainContent(String temp){
-        if (!(temp.toLowerCase().startsWith("http://")
-                || temp.toLowerCase().startsWith("https://"))) {
-            temp += "http://";
-        }
-
-        String head = "http://183.174.228.9:8282/du/jsonp/ExtractMainContent?url=";
-        head += temp;
-        String mainContent = null;
-
-        try{
-            mainContent = getRawResponse(head);
-            System.out.println(mainContent);
-        }
-        catch(Exception ee){
-            System.out.println("Get ExtractMainContent @" + temp + " Error!");
-            ee.printStackTrace();
-        }
-
-        return mainContent;
-    }
-
-    private String getPdoc(String temp) throws Exception {
-        URL u = new URL("http://websensor.playbigdata.com/du/Service.svc/pdoc");
-        WebRequest webrequest = new WebRequest(u,"POST");
-        webrequest.setRequestBody(temp);
-
-        webClient.addRequestHeader("Host","http://websensor.playbigdata.com");
-        webClient.addRequestHeader("Connection","keep-alive");
-        webClient.addRequestHeader("Content-Length","32673");
-        for(Cookie c: cookies){
-            webClient.addRequestHeader("Cookies",c.toString());
-        }
-
-        return ((HtmlPage)webClient.getPage(webrequest)).asXml();
     }
 
     private String getXmlResponse(String str) throws Exception {
@@ -167,28 +123,34 @@ public class Fetcher extends Thread {
         return str;
     }
 
-    private void writeFile(String html, String path) throws IOException {
+    synchronized public static void writeHtml(String html) throws IOException {
         htmlCount.incrementAndGet();
-        File file = new File(path + htmlCount+ "_" + getTime()  + ".html");
+        File file = new File(pagePath + htmlCount + "_" + getTime()  + ".html");
         if (!file.exists())
             file.createNewFile();
-        (new FileOutputStream(file)).write((url + "\n" + html).getBytes());
-
-        if (htmlCount.get() > 1000)
-            kill();
+        (new FileOutputStream(file)).write((html).getBytes());
     }
 
-    private void NLP(String url) throws Exception{
-        JParser jParser = new JParser();
-        String item = getMainContent(url);
-        NLP.News content = jParser.getContent(item);
+    synchronized private static void writeNews(NLP.News news) throws IOException {
+        File file = new File(infoPath + news.getTime() + "_" + news.getTitle().replaceAll("[\\/:*?\"<>|]", "")  + ".txt");
 
-        if (content != null) {
-            writeFile(content.content, infoPath);
-            if (doNLP) {
-                NLP.Words words = jParser.getWords(getPdoc(item));
-                words.dump();
-            }
+        if (!file.exists())
+            file.createNewFile();
+
+        (new FileOutputStream(file)).write((
+                news.getTitle() + "\r\n" +
+                news.getTime() + "\r\n" +
+                news.getUrl() + "\r\n" +
+                news.getContent()
+        ).getBytes());
+    }
+
+    public static boolean NLP(String html, String url) throws Exception{
+        NLP.News news = ContentExtractor.getNewsByHtml(html, url);
+        if (news.getContent() != null && news.getContent().trim().length() > 20) {
+            writeNews(news);
+            return true;
         }
+        return false;
     }
 }

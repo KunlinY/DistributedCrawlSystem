@@ -1,17 +1,14 @@
 package badcode;
 
 
-import java.util.Date;
-
 public class Main {
 
     public static void main(String[] args)  throws Exception {
-        Date d = new Date();
-        System.out.println(d);
-
-        Crawler crawler = new Crawler();
+        Crawler crawler = new Crawler(true, true);
         crawler.setRootURL("http://www.ruc.edu.cn/");
         crawler.addRegex(".*ruc.edu.cn.*");
+        crawler.setThreadsNum(10);
         crawler.start();
     }
+
 }
