@@ -149,6 +149,8 @@ public class Fetcher extends Thread {
         NLP.News news = ContentExtractor.getNewsByHtml(html, url);
         if (news.getContent() != null && news.getContent().trim().length() > 20) {
             writeNews(news);
+            NLP.Words words = new NLP().new Words(news.getContent());
+            words.dump();
             return true;
         }
         return false;

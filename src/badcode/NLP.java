@@ -1,15 +1,15 @@
 package badcode;
 
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.Segment;
+import com.hankcs.hanlp.seg.common.Term;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jsoup.nodes.Element;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class NLP {
     private static String user = "postgres";
@@ -35,12 +35,12 @@ public class NLP {
     }
 
     public class News {
-        protected String url = null;
-        protected String title = null;
-        protected String content = null;
-        protected String time = null;
+        private String url = null;
+        private String title = null;
+        private String content = null;
+        private String time = null;
 
-        protected Element contentElement = null;
+        private Element contentElement = null;
 
         public String getUrl() {
             return url;
@@ -96,8 +96,13 @@ public class NLP {
         HashMap<String, Integer> organization, idiom, person, location, properNoun,
                 topic, positive, negative;
 
-        Words (ArrayList<HashMap<String, Integer> > list) {
+        Words(String html) {
+            recognition(html);
+        }
 
+        public void recognition(String html) {
+            Segment segment = HanLP.newSegment().enableAllNamedEntityRecognize(true);
+            List<Term> termList = segment.seg(html);
         }
 
         public void dump() {
