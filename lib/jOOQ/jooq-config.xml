@@ -66,10 +66,10 @@
     <target>
       <!-- The destination package of your generated classes (within the
            destination directory) -->
-      <packageName>badcode.Main</packageName>
+      <packageName>com.jooq.data</packageName>
 
       <!-- The destination directory of your generated classes -->
-      <directory>..\..\src\badcode</directory>
+      <directory>..\..\src</directory>
     </target>
   </generator>
 </configuration>

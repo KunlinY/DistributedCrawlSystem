@@ -2,6 +2,7 @@ package badcode;
 
 import java.io.*;
 import java.util.Date;
+import java.util.HashMap;
 
 public class util {
     public static long getTime() {
@@ -23,5 +24,12 @@ public class util {
         }
 
         return item;
+    }
+
+    public static void insertHashMap(HashMap<String, Integer> hashMap, String item) {
+        if (hashMap.containsKey(item))
+            hashMap.put(item, hashMap.get(item) + 1);
+        else
+            hashMap.put(item, 1);
     }
 }

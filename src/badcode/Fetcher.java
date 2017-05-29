@@ -138,10 +138,13 @@ public class Fetcher extends Thread {
             file.createNewFile();
 
         (new FileOutputStream(file)).write((
-                news.getTitle() + "\r\n" +
-                news.getTime() + "\r\n" +
-                news.getUrl() + "\r\n" +
-                news.getContent()
+                "标题：" + news.getTitle() + "\r\n"
+                        + "时间：" + news.getTime() + "\r\n"
+                        + "网址：" + news.getUrl() + "\r\n"
+                        + "摘要：" + news.getSummary() + "\r\n"
+                        + "关键词：" + news.getKeywords() + "\r\n"
+                        + "短语：" + news.getPhrases() + "\r\n"
+                        + "正文：" + news.getContent()
         ).getBytes());
     }
 
@@ -149,7 +152,7 @@ public class Fetcher extends Thread {
         NLP.News news = ContentExtractor.getNewsByHtml(html, url);
         if (news.getContent() != null && news.getContent().trim().length() > 20) {
             writeNews(news);
-            NLP.Words words = new NLP().new Words(news.getContent());
+            NLP.Words words = new NLP().new Words(news.getContent(), url);
             words.dump();
             return true;
         }
