@@ -69,7 +69,6 @@ public class NLP {
                 if (contentElement != null) content = contentElement.text();
                 else content = "";
             }
-
             return content;
         }
 
@@ -80,7 +79,7 @@ public class NLP {
 
             StringBuilder key = new StringBuilder();
             for (String string : summary) {
-                key.append(string);
+                key.append(string + "; ");
             }
             return key.toString();
         }
@@ -92,7 +91,7 @@ public class NLP {
 
             StringBuilder key = new StringBuilder();
             for (String string : keywords) {
-                key.append(string);
+                key.append(string + "\t");
             }
             return key.toString();
         }
@@ -104,7 +103,7 @@ public class NLP {
 
             StringBuilder key = new StringBuilder();
             for (String string : phrases) {
-                key.append(string);
+                key.append(string + "\t");
             }
             return key.toString();
         }

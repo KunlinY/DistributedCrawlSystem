@@ -79,7 +79,7 @@ public class Crawler {
             fetcher.start();
         }
 
-        if (isMaster) {
+        if (!isMaster) {
             for (int i = 0; i < threadsNum / 2 + 1; i++) {
                 Master master = new Master(isNews);
                 master.start();

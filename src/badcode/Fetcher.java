@@ -80,6 +80,7 @@ public class Fetcher extends Thread {
             }
             catch (Exception e) {
                 System.out.println("Error fetching url " + url);
+                e.printStackTrace();
                 try {
                     Thread.sleep(100);
                 } catch (Exception ee) {
@@ -132,7 +133,12 @@ public class Fetcher extends Thread {
     }
 
     synchronized private static void writeNews(NLP.News news) throws IOException {
-        File file = new File(infoPath + news.getTime() + "_" + news.getTitle().replaceAll("[\\/:*?\"<>|]", "")  + ".txt");
+        File file = new File(
+                infoPath
+                + news.getTime().replaceAll("[\\/:*?\"<>|]", ".") + "_"
+                + news.getTitle().replaceAll("[\\/:*?\"<>|]", "")
+                + ".txt"
+        );
 
         if (!file.exists())
             file.createNewFile();
