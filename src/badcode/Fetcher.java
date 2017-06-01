@@ -15,8 +15,8 @@ import static badcode.util.getTime;
 public class Fetcher extends Thread {
     private static AtomicInteger startThread = new AtomicInteger(0);
     private static AtomicInteger htmlCount = new AtomicInteger(0);
-    private static String pagePath = ".\\pages\\";
-    private static String infoPath = ".\\info\\";
+    private static String pagePath = "..\\pages\\";
+    private static String infoPath = "..\\info\\";
     private int threadID;
 
     private WebClient webClient=new WebClient();
@@ -66,7 +66,17 @@ public class Fetcher extends Thread {
                 if (CrawlDB.addCleanURL(url) < 0)
                     continue;
 
-                String html = getXmlResponse(url);
+                String html = "";
+                try {
+                    html = getXmlResponse(url);
+                } catch (Exception e){
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception ee) {
+
+                    }
+                }
+
                 crawler.inject(parser.extractLink(html, new URL(url)));
 
                 if (Crawler.isMaster) {
@@ -159,7 +169,7 @@ public class Fetcher extends Thread {
         if (news.getContent() != null && news.getContent().trim().length() > 20) {
             writeNews(news);
             NLP.Words words = new NLP().new Words(news.getContent(), url);
-            words.dump();
+            words.dump(currentThread());
             return true;
         }
         return false;

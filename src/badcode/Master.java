@@ -24,19 +24,17 @@ public class Master extends Thread {
         }
 
         while (alive) {
-            String url = "";
             try {
                 String page = CrawlDB.getPage();
                 Fetcher.writeHtml(page);
 
                 if (isNews) {
-                    url = page.substring(0, page.indexOf("\r\n"));
+                    String url = page.substring(0, page.indexOf("\r\n"));
                     String html = page.substring(page.indexOf("\r\n"));
                     CrawlDB.addCleanURL(url, Fetcher.NLP(html, url));
                 }
             } catch (Exception e) {
                 try {
-                    System.out.println(url);
                     Thread.sleep(1000);
                 } catch (Exception ee) {
 

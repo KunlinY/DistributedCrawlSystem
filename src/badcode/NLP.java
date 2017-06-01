@@ -1,8 +1,10 @@
 package badcode;
 
+import com.google.common.util.concurrent.AtomicLongMap;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
+import com.jooq.data.Sequences;
 import com.jooq.data.Tables;
 import com.jooq.data.tables.Locations;
 import com.jooq.data.tables.Organizations;
@@ -18,6 +20,10 @@ import org.jsoup.nodes.Element;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicLongArray;
 
 public class NLP {
     private static String user = "postgres";
@@ -25,7 +31,14 @@ public class NLP {
     private static String url = "jdbc:postgresql://123.206.72.211:5432/postgres";
     private static Connection connection = null;
 
+    public static int length = 50;
+    public static AtomicLong atom = new AtomicLong(-1);
+    public static AtomicLongArray array = new AtomicLongArray(length);
+
     NLP() {
+        for (int i = 0; i < length; i++)
+            array.getAndSet(i, -1);
+
         if (connection == null) {
             try {
                 Class.forName("org.postgresql.Driver").newInstance();
@@ -248,16 +261,26 @@ public class NLP {
             }
         }
 
-        public void dump() {
+        synchronized public void dump(Thread thread) throws Exception{
+            util.control(true, thread.getId());
+
+            while (atom.get() != thread.getId()) {
+                thread.sleep(200);
+                util.control(false, thread.getId());
+            }
+
             insertPOL();
             insertURL();
+
+            atom.set(-1);
+            thread.sleep(500);
         }
 
         private void insertPOL() {
             Long uNum = dslContext
                     .selectCount()
-                    .from(Tables.PERSONS)
-                    .fetchOne(0, Long.class) + 1;
+                    .from(Tables.URLS)
+                    .fetchOne(0, Long.class) + 2;
             Long[] list = {uNum};
 
             for (String key : person.keySet()) {

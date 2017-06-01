@@ -11,13 +11,25 @@ public class Crawler {
     private ArrayList<String> patterns = new ArrayList<>();
     private int threadsNum = 20;
     private ArrayList<Fetcher> fetchers = new ArrayList<>();
-    public static boolean isNews = true;
-    public static boolean isMaster = true;
+    public static boolean isNews = false;
+    public static boolean isMaster = false;
+
+    public Crawler() {
+        CrawlDB crawlDB = new CrawlDB();
+    }
 
     public Crawler(boolean isMaster, boolean isNews) {
         this.isNews = isNews;
         this.isMaster = isMaster;
         CrawlDB crawlDB = new CrawlDB();
+    }
+
+    public void setMaster() {
+        this.isMaster = true;
+    }
+
+    public void setNews() {
+        this.isNews = true;
     }
 
     public void flush() {
@@ -79,8 +91,8 @@ public class Crawler {
             fetcher.start();
         }
 
-        if (!isMaster) {
-            for (int i = 0; i < threadsNum / 2 + 1; i++) {
+        if (isMaster) {
+            for (int i = 0; i < threadsNum; i++) {
                 Master master = new Master(isNews);
                 master.start();
             }

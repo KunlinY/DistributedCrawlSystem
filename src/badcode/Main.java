@@ -1,14 +1,18 @@
 package badcode;
 
 public class Main {
+    public static Crawler crawler = new Crawler();
+    public static String pages;
+    public static String info;
 
     public static void main(String[] args)  throws Exception {
-        Crawler crawler = new Crawler(true, true);
-        crawler.flush();
+        Crawler crawler = new Crawler(false, true);
+        //crawler.flush();
         crawler.setRootURL("http://www.ruc.edu.cn/");
         crawler.addRegex(".*ruc.edu.cn.*");
-        crawler.setThreadsNum(1);
+        crawler.setThreadsNum(5);
         crawler.start();
+        crawler = null;
     }
 
 }
