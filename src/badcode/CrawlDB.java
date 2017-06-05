@@ -120,6 +120,10 @@ public class CrawlDB {
         return url.equals("nil") ? "" : url;
     }
 
+    public static Long getNum() {
+        return jedis.hlen(finishHash);
+    }
+
     public static void flushDB() {
         jedis.flushAll();
     }

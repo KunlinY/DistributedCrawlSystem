@@ -2,8 +2,6 @@ package badcode;
 
 public class Main {
     public static Crawler crawler = new Crawler();
-    public static String pages;
-    public static String info;
 
     public static void main(String[] args)  throws Exception {
         Crawler crawler = new Crawler(false, true);

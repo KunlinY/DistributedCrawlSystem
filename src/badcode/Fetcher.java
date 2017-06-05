@@ -15,8 +15,8 @@ import static badcode.util.getTime;
 public class Fetcher extends Thread {
     private static AtomicInteger startThread = new AtomicInteger(0);
     private static AtomicInteger htmlCount = new AtomicInteger(0);
-    private static String pagePath = "..\\pages\\";
-    private static String infoPath = "..\\info\\";
+    public static String pagePath = "..\\pages\\";
+    public static String infoPath = "..\\info\\";
     private int threadID;
 
     private WebClient webClient=new WebClient();
