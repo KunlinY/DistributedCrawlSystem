@@ -157,7 +157,10 @@ public class ContentExtractor {
     protected double computeScore(Element tag) {
         CountInfo countInfo = infoMap.get(tag);
         double var = Math.sqrt(computeVar(countInfo.leafList) + 1);
-        double score = Math.log(var) * Math.log(countInfo.densitySum) * Math.log(countInfo.textCount - countInfo.linkTextCount + 1) * Math.log10(countInfo.pCount + 2);
+        double score = Math.log(var)
+                * Math.log(countInfo.densitySum)
+                * Math.log(countInfo.textCount - countInfo.linkTextCount + 1)
+                * Math.log10(countInfo.pCount + 2);
         return score;
     }
 
