@@ -4,13 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class CrawlerGUI extends JFrame{
     public JTextField t1,t2,t3,t4,t5;
     public JButton b1,b2,b3,b4,b5;
     public JButton bn1,bn2;
     public JPanel jp;
-    public JTextField screen = new JTextField("0");
+    public static JTextField screen = new JTextField("0");
 
     public CrawlerGUI(){
         jp = new JPanel();
@@ -57,7 +58,6 @@ public class CrawlerGUI extends JFrame{
         b1.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 Main.crawler.setRootURL(t1.getText());
-                t1.setText("");
             }
         });
 
@@ -76,7 +76,6 @@ public class CrawlerGUI extends JFrame{
         b4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Main.crawler.addRegex(t4.getText());
-                t4.setText("");
             }
         });
 
@@ -112,9 +111,6 @@ public class CrawlerGUI extends JFrame{
 
         bn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Timer timer = new Timer();
-                timer.schedule(new MyTask(),100);
-
                 if(rb1.isSelected()){
                     Main.crawler.setMaster();
                 }
@@ -122,8 +118,6 @@ public class CrawlerGUI extends JFrame{
                     Main.crawler.setNews();
                 }
                 Main.crawler.start();
-
-                timer.cancel();
             }
         });
 
@@ -170,20 +164,23 @@ public class CrawlerGUI extends JFrame{
     public static void main(String[] args){
         CrawlerGUI app=new CrawlerGUI();
         app.setVisible(true);
+        Main.crawler.toString();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                screen.setText(CrawlDB.getNum().toString());
+            }
+        }, 100);
 
         app.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
+                timer.cancel();
                 System.exit(0);
             }
         });
     }
-
-    class MyTask extends java.util.TimerTask{
-        public void run(){
-
-        }
-    }
-
 }
 
 
