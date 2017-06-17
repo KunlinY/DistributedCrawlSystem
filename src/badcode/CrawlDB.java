@@ -20,7 +20,6 @@ public class CrawlDB {
 
     // 初始化Redis 优先采用服务器
     // 服务器不行则使用备选方案本地Redis
-    // TODO 异常未捕获 无法采用备选方案
     public CrawlDB() {
         if (jedis == null) {
             try  {
